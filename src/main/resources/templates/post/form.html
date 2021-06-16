@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Form</title>
+</head>
+<body>
+<div class="container">
+  <div class="page-header">
+    <h1 th:text="${post?.idx} ? '게시글 상세' : '게시글 등록'"></h1>
+  </div>
+  <br/>
+  <form th:action="@{/post/form}" method="POST">
+    <input id="board_idx" type="hidden" th:value="${post?.idx}"/>
+    <input id="board_create_date" type="hidden" th:value="${post?.createdDate}"/>
+    생성 날짜 <input type="text" class="form-control input-sm" readonly
+                 th:value="${post?.createdDate} ?
+                                    ${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')} :
+                                   ${post?.createdDate}"/>
+
+    <br>
+    <div>제목</div> <input name="title" type="text" class="form-control input-sm"
+                 th:value="${post?.title}"/>
+    <br>
+    <div>내용</div> <textarea name="content" class="form-control input-sm"
+                    maxlength="140" rows="70" style="height: 200px;"
+                    th:text="${post?.content}"></textarea>
+          <span class="help-block"></span>
+    <!-- 저장/수정/삭제 버튼 -->
+    <div class="pull-right">
+      <button th:if="!${post?.idx}" type="submit" class="btn btn-primary" id="insert">
+        저장
+      </button>
+      <button th:if="${post?.idx}" type="submit" class="btn btn-info" id="update">
+        수정
+      </button>
+      <button th:if="${post?.idx}" type="submit" class="btn btn-danger" id="delete">
+        삭제
+      </button>
+    </div>
+  </form>
+  <!-- 목록으로 -->
+  <div class="pull-left">
+    <a href="/post/list" class="btn btn-success">목록으로</a>
+  </div>
+</div>
+</body>
+</html>

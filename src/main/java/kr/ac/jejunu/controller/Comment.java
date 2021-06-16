@@ -19,8 +19,6 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String content;
-    @OneToMany
-    private List<Product> products;
     @ManyToOne
     @JsonIgnoreProperties("comments")
     private UserInfo userInfo;
