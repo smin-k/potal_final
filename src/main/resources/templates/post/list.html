@@ -49,9 +49,9 @@ ID : <span sec:authentication="name"></span> <br>
                 </thead>
                 <tbody>
                 <tr th:each="post : ${postList}">
-                    <td th:text="${post.idx}"></td>
+                    <td th:text="${post.id}"></td>
                     <td>
-                        <a th:href="'/post?idx='+${post.idx}" th:text="${post.title}"></a>
+                        <a th:href="'/post?id='+${post.id}" th:text="${post.title}"></a>
                     </td>
                     <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:dd')}">
                     </td>

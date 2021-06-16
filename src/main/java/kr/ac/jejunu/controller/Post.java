@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@SuppressWarnings("JpaAttributeTypeInspection")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,10 +26,13 @@ public class Post {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
+    private Long id;
 
     @Column
     private String title;
+
+    @Column
+    private String author;
 
     @Column
     private String content;
@@ -42,13 +46,18 @@ public class Post {
     @OneToMany
     private List<Comment> comments;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private File file;
+
     @Builder
-    public Post(Long idx, String title, String content, LocalDateTime createdDate,
+    public Post(Long id, String title, String author, String content, File file, LocalDateTime createdDate,
                 LocalDateTime updatedDate) {
-        this.idx = idx;
+        this.id = id;
         this.title = title;
+        this.author = author;
         this.content = content;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+        this.file = file;
     }
 }
