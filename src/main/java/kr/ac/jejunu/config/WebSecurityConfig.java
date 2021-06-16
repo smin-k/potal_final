@@ -19,9 +19,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 2
 
     @Override
     public void configure(WebSecurity web) { // 4
-        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/resources/**");
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception { // 5
         http
@@ -38,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter { // 2
                 .logout() // 8
                 .logoutSuccessUrl("/login") // 로그아웃 성공시 리다이렉트 주소
                 .invalidateHttpSession(true) // 세션 날리기
+
         ;
     }
 
