@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Entity
 @Getter
@@ -18,12 +18,16 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String content;
     @ManyToOne
+
     @JsonIgnoreProperties("comments")
     private UserInfo userInfo;
+
     @CreatedDate
     private LocalDateTime dateCreated;
+
     @Version
     private Long version;
 }

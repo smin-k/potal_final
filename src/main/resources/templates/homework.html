@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="UTF-8">
+  <title>Form</title>
+</head>
+<body>
+<div class="container">
+  <div class="page-header">
+    <h1>과제 제출</h1>
+  </div>
+  <br/>
+    <input id="board_id" type="hidden" th:value="${homework.post?.id}"/>
+    <input id="board_create_date" type="hidden" th:value="${homework.post?.createdDate}"/>
+    생성 날짜 <input type="text" class="form-control input-sm" readonly
+                 th:value="${homework.post?.createdDate} ?
+                                    ${#temporals.format(homework.post.createdDate, 'yyyy-MM-dd HH:mm')} :
+                                   ${homework.post?.createdDate}"/>
+
+    <br>
+    <div>제목</div> <input name="title" type="text" class="form-control input-sm" readonly
+                 th:value="${homework.post?.title}"/>
+    <br>
+    <div>내용</div> <textarea name="content" class="form-control input-sm" readonly
+                    maxlength="140" rows="70" style="height: 200px;"
+                    th:text="${homework.post?.content}"></textarea>
+          <span class="help-block"></span>
+
+
+  <form th:action="@{/post/homework}" method="POST" enctype="multipart/form-data">
+    <div class="col-sm-10">
+      <div class="custom-file" id="inputFile">
+        <input name="file" type="file" class="custom-file-input" id="customFile">
+        <label class="custom-file-label" for="customFile">파일을 선택해 주세요.</label>
+        <div th:if="${homework.file != null}">
+          <strong>첨부파일 : </strong>
+          <a class="card-text" th:href="@{'homework/download/' + ${homework.file.getId()}}" th:text="${homework.file.getFilename()}"></a>
+        </div>
+      </div>
+    </div>
+    <div>코멘트</div>
+    <textarea name="content" class="form-control input-sm"
+                            maxlength="140" rows="70" style="height: 200px;"
+                            th:text="${homework?.content}"></textarea>
+    <!-- 저장/수정/삭제 버튼 -->
+      <button sec:authorize="hasRole('ROLE_STUDENT')" type="submit" class="btn btn-primary" id="insert_homework">
+        과제 제출
+      </button>
+  </form>
+  <!-- 목록으로 -->
+  <div class="pull-left">
+    <a href="list" class="btn btn-success">목록으로</a>
+  </div>
+</div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <meta charset="UTF-8">
   <title>Form</title>
@@ -10,7 +10,7 @@
     <h1 th:text="${post?.id} ? '게시글 상세' : '게시글 등록'"></h1>
   </div>
   <br/>
-  <form th:action="@{/post/form}" method="POST" enctype="multipart/form-data">
+  <form th:action="@{/post/homework}" method="POST" enctype="multipart/form-data">
     <input id="board_id" type="hidden" th:value="${post?.id}"/>
     <input id="board_create_date" type="hidden" th:value="${post?.createdDate}"/>
     생성 날짜 <input type="text" class="form-control input-sm" readonly
@@ -29,7 +29,7 @@
     <label for="inputFile" class="col-sm-2 col-form-label"><strong>첨부 파일</strong></label>
     <div class="col-sm-10">
       <div class="custom-file" id="inputFile">
-        <input name="file2" type="file" class="custom-file-input" id="customFile">
+        <input name="file" type="file" class="custom-file-input" id="customFile">
         <label class="custom-file-label" for="customFile">파일을 선택해 주세요.</label>
         <div th:if="${post.file != null}">
           <strong>첨부파일 : </strong>
@@ -48,11 +48,14 @@
       <button th:if="${post?.id}" type="submit" class="btn btn-danger" id="delete">
         삭제
       </button>
+      <a sec:authorize="hasRole('ROLE_STUDENT')" th:href="@{'homework/'+${post.id}}" id="insert_homework">
+        과제 제출하기
+      </a>
     </div>
   </form>
   <!-- 목록으로 -->
   <div class="pull-left">
-    <a href="/post/list" class="btn btn-success">목록으로</a>
+    <a href="list" class="btn btn-success">목록으로</a>
   </div>
 </div>
 </body>

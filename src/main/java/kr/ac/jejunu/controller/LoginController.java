@@ -15,42 +15,21 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping(value = "/")
+@RequestMapping(value = "/login")
 public class LoginController {
 
     private final UserService userService;
 
-//    @GetMapping(value = "/login")
-//    public String login(Model model) {
-//          model.addAttribute("result", "login");
-//          return "login";
-//    }
-//
-//    @GetMapping(value = "/signup")
-//    public String signup(Model model) {
-//        model.addAttribute("result", "login");
-//        return "signup";
-//    }
-
     @PostMapping("/user")
     public String signup(UserInfoDto infoDto) { // 회원 추가
         userService.save(infoDto);
-        return "redirect:/login";
+        return "redirect:/login/login";
     }
 
     @GetMapping(value = "/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/login";
+        return "redirect:/login/login";
     }
-
-
-//    private final UserDao userDao;
-//
-//    @GetMapping(value = "/login")
-//    public String login(Model model) {
-//        model.addAttribute("result", "login");
-//        return "login";
-//    }
 
 }

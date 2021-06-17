@@ -1,16 +1,14 @@
 package kr.ac.jejunu.controller;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import javax.persistence.*;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@SuppressWarnings("JpaAttributeTypeInspection")
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -44,7 +42,7 @@ public class Post {
     private LocalDateTime updatedDate;
 
     @OneToMany
-    private List<Comment> comments;
+    private List<Homework> homeworks;
 
     @OneToOne(cascade = CascadeType.ALL)
     private File file;
