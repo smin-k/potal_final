@@ -11,6 +11,10 @@ import kr.ac.jejunu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +30,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Controller
@@ -97,5 +102,17 @@ public class HomeworkController {
         return "redirect:/post/list";
     }
 
+    @GetMapping("/homework/list/{pid}")
+    public String list(@PageableDefault Pageable pageable, Model model, @PathVariable("pid") Long pid) {
+//      model.addAttribute("homeList", homeworkService.findHomeworkList(pageable,pid));
+        List<Homework> homeworkList = postService.findPostById(pid).getHomeworks();
+        final int start = (int)pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), homeworkList.size());
+        final Page<Homework> page = new PageImpl<>( homeworkList.subList(start, end), pageable, homeworkList.size());
+
+
+        model.addAttribute("homeList", page );
+        return "/homeworklist";
+    }
 
 }

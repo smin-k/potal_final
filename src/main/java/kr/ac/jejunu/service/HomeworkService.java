@@ -21,10 +21,14 @@ public class HomeworkService {
     @Autowired
     private PostRepository postRepository;
 
-    public Page<Homework> findHomeworkList(Pageable pageable) {
+    @Autowired
+    private PostService postService;
+
+    public Page<Homework> findHomeworkList(Pageable pageable, Long pid) {
+        Post post = postService.findPostById(pid);
         pageable = PageRequest.of(pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber() - 1,
                 pageable.getPageSize());
-        return homeworkRepository.findAll(pageable);
+        return homeworkRepository.findByPost(post,pageable);
     }
 
     public Homework findHomeworkById(Long id) {

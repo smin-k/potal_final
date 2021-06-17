@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorator="layout/default">
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+</head>
+<body>
+<!--<div class="container">-->
+<!--    <div class="page-header">-->
+<!--        <h1> 과제 정보</h1>-->
+<!--    </div>-->
+<!--    <br/>-->
+<!--    <form method="POST" enctype="multipart/form-data">-->
+<!--        <input id="board_id" type="hidden" th:value="${post?.id}"/>-->
+<!--        <input id="board_create_date" type="hidden" th:value="${post?.createdDate}"/>-->
+<!--        생성 날짜 <input type="text" class="form-control input-sm" readonly-->
+<!--                     th:value="${post?.createdDate} ?-->
+<!--                                    ${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')} :-->
+<!--                                   ${post?.createdDate}"/>-->
+<!--        <br>-->
+<!--        <div>게시물 번호</div> <input name="id" type="text" class="form-control input-sm"-->
+<!--                                 th:value="${post?.getId()}"/>-->
+<!--        <br>-->
+<!--        <div>제목</div> <input name="title" type="text" class="form-control input-sm"-->
+<!--                             th:value="${post?.title}"/>-->
+<!--        <br>-->
+<!--        <div>작성자:</div> <div th:text="${post.userInfo.getEmail()}"> </div>-->
+<!--        <br>-->
+<!--        <div>내용</div> <textarea name="content" class="form-control input-sm"-->
+<!--                                maxlength="140" rows="70" style="height: 200px;"-->
+<!--                                th:text="${post?.content}"></textarea>-->
+<!--        <span class="help-block"></span>-->
+
+<div class="container" layout:fragment="content">
+
+    <div class="page-header">
+        <h1>제출 과제 목록</h1>
+    </div>
+    <br/>
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                <tr class="warning">
+                    <th class="col-sm-1">No</th>
+                    <th class="col-sm-3">작성자 </th>
+                    <th class="col-sm-3">수정 날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="home : ${homeList}">
+                    <td th:text="${home.id}"></td>
+<!--                    <td>-->
+<!--&lt;!&ndash;                        <a th:href="'/post/form?id='+${home.id}" th:text="${home.userInfo.getEmail()}"></a>&ndash;&gt;-->
+<!--                        <a> 점수 </a>-->
+<!--                    </td>-->
+                    <td th:text="${home.userInfo.getEmail()}">
+                    </td>
+                    <td th:text="${#temporals.format(home.getDateCreated(), 'yyyy-MM-dd HH:mm:dd')}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- pagination -->
+        <nav class="navbar" aria-label="Page navigation" style="text-align: center;">
+            <ul class="pagination"
+                th:with="startNumber=${T(Math).floor(homeList.number/10)} * 10 + 1,
+                            endNumber=(${homeList.totalPages} > ${startNumber} + 9) ?
+                                        ${startNumber} + 9 : ${homeList.totalPages}">
+
+                <li th:style="${homeList.first} ? 'display:none'">
+                    <a href="/homework/list?page=1">&laquo;</a>
+                </li>
+                <li th:style="${homeList.first} ? 'display:none'">
+                    <a th:href="@{/homework/list(page=${homeList.number})}">&lsaquo;</a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(startNumber, endNumber)}"
+                    th:class="(${page} == ${homeList.number} + 1) ? 'active'">
+                    <a th:href="@{/homework/list(page=${page})}" th:text="${page}">
+                        <span class="sr-only"></span>
+                    </a>
+                </li>
+                <li th:style="${homeList.last} ? 'display:none'">
+                    <a th:href="@{/home/list(page=${homeList.number} + 2)}">&rsaquo;</a>
+                </li>
+                <li th:style="${homeList.last} ? 'display:none'">
+                    <a th:href="@{/home/list(page=${homeList.totalPages})}">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<!--<div th:text="${homeList.getSize()}">-->
+<!--</div>-->
+
+</body>
+</html>
