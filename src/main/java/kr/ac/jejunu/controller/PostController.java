@@ -1,8 +1,6 @@
 package kr.ac.jejunu.controller;
 
 
-import kr.ac.jejunu.dto.FileDto;
-import kr.ac.jejunu.dto.HomeworkDto;
 import kr.ac.jejunu.dto.PostDto;
 import kr.ac.jejunu.repository.HomeworkRepository;
 import kr.ac.jejunu.repository.PostRepository;
@@ -11,18 +9,11 @@ import kr.ac.jejunu.service.HomeworkService;
 import kr.ac.jejunu.service.PostService;
 import kr.ac.jejunu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -95,23 +86,24 @@ public class PostController {
     /*
      * 게시글 수정
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<?> putPost(@PathVariable("id") Long id, @RequestBody Post post) {
+    @PutMapping("/update/{id}")
+    public String putPost(@PathVariable("id") Long id, @RequestBody Post post) {
         Post updatePost = postRepository.getById(id);
         updatePost.setTitle(post.getTitle());
         updatePost.setContent(post.getContent());
         updatePost.setUpdatedDate(LocalDateTime.now());
         postRepository.save(updatePost);
-        return new ResponseEntity<>("{}", HttpStatus.OK);
+        //return new ResponseEntity<>("{}", HttpStatus.OK);
+        return "redirect:/post/list";
     }
-
     /*
      * 게시글 삭제
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePost(@PathVariable("id") Long id) {
+    @DeleteMapping("/delete/{id}")
+    public String deletePost(@PathVariable("id") Long id) {
         postRepository.deleteById(id);
-        return new ResponseEntity<>("{}", HttpStatus.OK);
+        //return new ResponseEntity<>("{}", HttpStatus.OK);
+        return "redirect:/post/list";
     }
 
 }
