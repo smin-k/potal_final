@@ -105,13 +105,15 @@ public class HomeworkController {
     @GetMapping("/homework/list/{pid}")
     public String list(@PageableDefault Pageable pageable, Model model, @PathVariable("pid") Long pid) {
 //      model.addAttribute("homeList", homeworkService.findHomeworkList(pageable,pid));
-        List<Homework> homeworkList = postService.findPostById(pid).getHomeworks();
+        Post post = postService.findPostById(pid);
+        List<Homework> homeworkList = post.getHomeworks();
         final int start = (int)pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), homeworkList.size());
         final Page<Homework> page = new PageImpl<>( homeworkList.subList(start, end), pageable, homeworkList.size());
 
 
         model.addAttribute("homeList", page );
+        model.addAttribute("post", post );
         return "/homeworklist";
     }
 

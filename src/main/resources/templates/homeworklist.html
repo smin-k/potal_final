@@ -8,31 +8,31 @@
     <title>Form</title>
 </head>
 <body>
-<!--<div class="container">-->
-<!--    <div class="page-header">-->
-<!--        <h1> 과제 정보</h1>-->
-<!--    </div>-->
-<!--    <br/>-->
-<!--    <form method="POST" enctype="multipart/form-data">-->
-<!--        <input id="board_id" type="hidden" th:value="${post?.id}"/>-->
-<!--        <input id="board_create_date" type="hidden" th:value="${post?.createdDate}"/>-->
-<!--        생성 날짜 <input type="text" class="form-control input-sm" readonly-->
-<!--                     th:value="${post?.createdDate} ?-->
-<!--                                    ${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')} :-->
-<!--                                   ${post?.createdDate}"/>-->
-<!--        <br>-->
-<!--        <div>게시물 번호</div> <input name="id" type="text" class="form-control input-sm"-->
-<!--                                 th:value="${post?.getId()}"/>-->
-<!--        <br>-->
-<!--        <div>제목</div> <input name="title" type="text" class="form-control input-sm"-->
-<!--                             th:value="${post?.title}"/>-->
-<!--        <br>-->
-<!--        <div>작성자:</div> <div th:text="${post.userInfo.getEmail()}"> </div>-->
-<!--        <br>-->
-<!--        <div>내용</div> <textarea name="content" class="form-control input-sm"-->
-<!--                                maxlength="140" rows="70" style="height: 200px;"-->
-<!--                                th:text="${post?.content}"></textarea>-->
-<!--        <span class="help-block"></span>-->
+<div class="container">
+    <div class="page-header">
+        <h1> 과제 정보</h1>
+    </div>
+    <br/>
+    <form method="POST" enctype="multipart/form-data">
+        <input id="board_id" type="hidden" th:value="${post?.id}"/>
+        <input id="board_create_date" type="hidden" th:value="${post?.createdDate}"/>
+        생성 날짜 <input type="text" class="form-control input-sm" readonly
+                     th:value="${post?.createdDate} ?
+                                    ${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')} :
+                                   ${post?.createdDate}"/>
+        <br>
+        <div>게시물 번호</div> <input name="id" type="text" class="form-control input-sm"
+                                 th:value="${post?.getId()}"/>
+        <br>
+        <div>제목</div> <input name="title" type="text" class="form-control input-sm"
+                             th:value="${post?.title}"/>
+        <br>
+        <div>작성자:</div> <div th:text="${post.userInfo.getEmail()}"> </div>
+        <br>
+        <div>내용</div> <textarea name="content" class="form-control input-sm"
+                                maxlength="140" rows="70" style="height: 200px;"
+                                th:text="${post?.content}"></textarea>
+        <span class="help-block"></span>
 
 <div class="container" layout:fragment="content">
 
@@ -46,18 +46,19 @@
                 <thead>
                 <tr class="warning">
                     <th class="col-sm-1">No</th>
-                    <th class="col-sm-3">작성자 </th>
+                    <th class="col-sm-1">점수</th>
+                    <th class="col-sm-3">작성자</th>
                     <th class="col-sm-3">수정 날짜</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="home : ${homeList}">
-                    <td th:text="${home.id}"></td>
-<!--                    <td>-->
-<!--&lt;!&ndash;                        <a th:href="'/post/form?id='+${home.id}" th:text="${home.userInfo.getEmail()}"></a>&ndash;&gt;-->
-<!--                        <a> 점수 </a>-->
-<!--                    </td>-->
-                    <td th:text="${home.userInfo.getEmail()}">
+                    <td th:text="${home.getId()}"></td>
+                    <td>
+                        <a> 0 </a>
+                    </td>
+                    <td>
+                        <a th:href="@{'/post/homework/'+${post.getId()}+'/'+${home.getId()}}" th:text="${home.userInfo.getEmail()}"></a>
                     </td>
                     <td th:text="${#temporals.format(home.getDateCreated(), 'yyyy-MM-dd HH:mm:dd')}">
                     </td>
