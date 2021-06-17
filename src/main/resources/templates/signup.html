@@ -10,8 +10,9 @@
 <form th:action="@{/user}" method="POST">
     email : <input type="text" name="email"> <br>
     password : <input type="password" name="password"> <br>
-    <input type="radio" name="auth" value="ROLE_TEACHER"> 교사
-    <input type="radio" name="auth" value="ROLE_STUDENT" checked="checked"> 학생 <br>
+    name : <input type="text" name="name"> <br>
+    <input type="radio" name="auth" value="ROLE_USER,ROLE_TEACHER"> 교사 <br>
+    <input type="radio" name="auth" value="ROLE_USER,ROLE_STUDENT" checked="checked"> 학생 <br>
     <button type="submit">생성</button>
 </form> <br>
 

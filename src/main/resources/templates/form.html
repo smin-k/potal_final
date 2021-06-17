@@ -10,16 +10,17 @@
     <h1 th:text="${post?.id} ? '게시글 상세' : '게시글 등록'"></h1>
   </div>
   <br/>
-  <form method="POST" enctype="multipart/form-data">
-    <input id="board_id" type="hidden" th:value="${post?.id}"/>
+  <form  th:action="@{/post/form}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="_method" value="put"/>
+    <input type="hidden" name="id" th:value="${post.id}"/>
     <input id="board_create_date" type="hidden" th:value="${post?.createdDate}"/>
     생성 날짜 <input type="text" class="form-control input-sm" readonly
                  th:value="${post?.createdDate} ?
                                     ${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')} :
                                    ${post?.createdDate}"/>
     <br>
-    <div>게시물 번호</div> <input name="id" type="text" class="form-control input-sm"
-                         th:value="${post?.getId()}"/>
+    <div>게시물 번호</div> <input name="id2" type="text" class="form-control input-sm" readonly
+                         th:value="${post?.id}"/>
     <br>
     <div>제목</div> <input name="title" type="text" class="form-control input-sm"
                  th:value="${post?.title}"/>
@@ -41,21 +42,19 @@
         삭제
       </button>
     </div>
-    <div sec:authorize="hasRole('ROLE_STUDENT')" class="pull-right"> 제출정보
-    <div>코멘트</div> <textarea name="content" class="form-control input-sm"   th:text="${home.getContent()}">
+    <div sec:authorize="hasRole('ROLE_STUDENT')" th:if="${home.getId()}" class="pull-right"> 제출정보
+      <a class="card-text" th:href="@{'homework/download/' + ${home.file.getId()}}" th:text="${home.file.getFilename()}"></a>
+
+    <div>코멘트</div> <textarea name="content" class="form-control input-sm"  th:if="${home}" th:text="${home.getContent()}">
                               </textarea>
     </div>
->
     <div sec:authorize="hasRole('ROLE_STUDENT')" >
-        <a th:if="${home}" th:href="@{'/post/homework/'+${post.getId()}+'/'+${home.getId()}}">
-        과제 수정하기 </a>
-     <a th:unless="${home}" th:href="@{'/post/homework/'+${post.getId()}+'/'+${home.getId()}}" id="insert_homework">과제 제출하기</a>
+        <a th:if="${home.getId()}" th:href="@{'/post/homework/'+${post.getId()}+'/'+${home.getId()}}"> 과제 수정하기 </a>
+        <a th:unless="${home.getId()}" th:href="@{'/post/homework/'+${post.getId()}}"  id="insert_homework" > 과제 제출하기</a>
     </div>
 
     <div sec:authorize="hasRole('ROLE_TEACHER')" >
-      <a th:href="@{'/post/homework/list/'+${post.getId()}+'/'}"> 제출 과제 확인 </a>
-      <a>
-        제출 과제 확인 </a>
+      <a th:if="${post.getUserInfo().getEmail()} == ${name}" th:href="@{'/post/homework/list/'+${post.getId()}+'/'}"> 제출 과제 확인 </a>
     </div>
 
 

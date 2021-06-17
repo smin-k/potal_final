@@ -28,7 +28,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException((email)));
     }
-
     /**
      * 회원정보 저장
      *

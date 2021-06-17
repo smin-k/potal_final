@@ -19,6 +19,7 @@ public class HomeworkDto {
     private LocalDateTime createdDate;
     private Post post;
     private File file;
+    private Long score;
 
     public Homework toEntity() {
         Homework build = Homework.builder()
@@ -26,6 +27,7 @@ public class HomeworkDto {
                 .content(content)
                 .post(post)
                 .file(file)
+                .score(score)
                 .userInfo(userInfo)
                 .dateCreated(createdDate)
                 .build();

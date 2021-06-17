@@ -31,6 +31,13 @@
         <div th:if="${homework.file != null}">
           <strong>첨부파일 : </strong>
           <a class="card-text" th:href="@{'homework/download/' + ${homework.file.getId()}}" th:text="${homework.file.getFilename()}"></a>
+          <div>이름</div> <input name="id" type="text" class="form-control input-sm" readonly
+                               th:value="${homework?.userInfo.name}"/>
+          <div sec:authorize="hasRole('ROLE_TEACHER')">
+            <div>점수</div> <input name="title" type="text" class="form-control input-sm"
+                                 th:value="${homework?.score}"/>
+            <br>
+          </div>
         </div>
       </div>
     </div>
@@ -38,10 +45,13 @@
     <textarea name="content" class="form-control input-sm"
                             maxlength="140" rows="70" style="height: 200px;"
                             th:text="${homework?.content}"></textarea>
-    <!-- 저장/수정/삭제 버튼 -->
-      <button sec:authorize="hasRole('ROLE_STUDENT')" type="submit" class="btn btn-primary" id="insert_homework">
+    <button sec:authorize="hasRole('ROLE_TEACHER')" type="submit" class="btn btn-primary" id="insert_homework">
+      점수 저장
+    </button>
+
+    <button sec:authorize="hasRole('ROLE_STUDENT')" type="submit" class="btn btn-primary" id="insert_homework">
         과제 제출
-      </button>
+    </button>
   </form>
   <!-- 목록으로 -->
   <div class="pull-left">

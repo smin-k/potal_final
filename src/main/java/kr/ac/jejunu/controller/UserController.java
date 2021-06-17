@@ -17,9 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequiredArgsConstructor
 @RequestMapping(value = "/")
 public class UserController {
-
     private final UserService userService;
-
     @PostMapping("/user")
     public String signup(UserInfoDto infoDto) { // 회원 추가
         userService.save(infoDto);

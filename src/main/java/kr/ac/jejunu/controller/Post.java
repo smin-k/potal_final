@@ -69,7 +69,7 @@ public class Post {
         }
         catch(NullPointerException e) {
         }
-        return null;
+        return new Homework();
     }
 
 

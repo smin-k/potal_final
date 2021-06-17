@@ -24,12 +24,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 import java.security.Principal;
 import java.time.LocalDateTime;
 
@@ -78,7 +74,7 @@ public class PostController {
         Homework home=post.isDoHome(userEmail);
         model.addAttribute("post", post);
         model.addAttribute("home", home);
-        model.addAttribute("userEmail",post);
+        model.addAttribute("name" ,userEmail);
         return "/form";
     }
 
@@ -89,7 +85,6 @@ public class PostController {
     public  String postPost(@ModelAttribute PostDto postDto, Principal principal) throws IOException {
         String userEmail = principal.getName();
         UserInfo user = userService.loadUserByUsername(userEmail);
-
         postDto.setCreatedDate(LocalDateTime.now());
         postDto.setUpdatedDate(LocalDateTime.now());
         postDto.setUserInfo(user);

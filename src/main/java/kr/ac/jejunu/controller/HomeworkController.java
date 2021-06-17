@@ -84,16 +84,19 @@ public class HomeworkController {
 
         String filename = file.getOriginalFilename();
         String savePath = System.getProperty("user.dir")+"/build/resources/main/static";
-        /* 파일이 저장되는 폴더가 없으면 폴더를 생성합니다. */
-
         String filePath = savePath + "\\" + filename;
-        file.transferTo(new File(filePath));
-
-        FileDto fileDto = new FileDto();
-        fileDto.setFilename(filename);
-        fileDto.setFilePath(filePath);
-
-        homeworkDto.setFile(fileDto.toEntity());
+        if (!new File(filePath).exists()) {
+            try{
+                file.transferTo(new File(filePath));
+                FileDto fileDto = new FileDto();
+                fileDto.setFilename(filename);
+                fileDto.setFilePath(filePath);
+                homeworkDto.setFile(fileDto.toEntity());
+            }
+            catch(Exception e){
+                e.getStackTrace();
+            }
+        }
         homeworkDto.setCreatedDate(LocalDateTime.now());
         homeworkDto.setPost(post);
         homeworkDto.setUserInfo(user);
@@ -102,7 +105,26 @@ public class HomeworkController {
         return "redirect:/post/list";
     }
 
-    @GetMapping("/homework/list/{pid}")
+    @RequestMapping("/homework/{pid}")
+    public String post(@PathVariable("pid") Long pid, Model model, Principal principal) {
+        Post post = postService.findPostById(pid);
+        String userEmail = principal.getName();
+        UserInfo user = userService.loadUserByUsername(userEmail);
+        post.setUserInfo(user);
+
+        Homework home=post.isDoHome(userEmail);
+        model.addAttribute("post", post);
+        model.addAttribute("homework", home);
+        model.addAttribute("name" ,userEmail);
+        return "/homework";
+    }
+
+
+
+
+
+
+    @RequestMapping("/homework/list/{pid}")
     public String list(@PageableDefault Pageable pageable, Model model, @PathVariable("pid") Long pid) {
 //      model.addAttribute("homeList", homeworkService.findHomeworkList(pageable,pid));
         Post post = postService.findPostById(pid);
@@ -110,7 +132,6 @@ public class HomeworkController {
         final int start = (int)pageable.getOffset();
         final int end = Math.min((start + pageable.getPageSize()), homeworkList.size());
         final Page<Homework> page = new PageImpl<>( homeworkList.subList(start, end), pageable, homeworkList.size());
-
 
         model.addAttribute("homeList", page );
         model.addAttribute("post", post );

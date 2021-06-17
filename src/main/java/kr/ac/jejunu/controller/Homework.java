@@ -19,6 +19,7 @@ public class Homework {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long score;
     private String content;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -36,8 +37,9 @@ public class Homework {
     private File file;
 
     @Builder
-    public Homework(Long id, String content, UserInfo userInfo, Post post, LocalDateTime dateCreated, File file) {
+    public Homework(Long id,Long score, String content, UserInfo userInfo, Post post, LocalDateTime dateCreated, File file) {
         this.id = id;
+        this.score = score;
         this.content = content;
         this.userInfo = userInfo;
         this.post = post;

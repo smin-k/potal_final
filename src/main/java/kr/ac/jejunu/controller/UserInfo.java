@@ -34,11 +34,15 @@ public class UserInfo implements UserDetails {
     @Column(name = "auth")
     private String auth;
 
+    @Column(name = "name")
+    private String name;
+
     @Builder
-    public UserInfo(String email, String password, String auth) {
+    public UserInfo(String email, String password, String auth, String name) {
         this.email = email;
         this.password = password;
         this.auth = auth;
+        this.name = name;
     }
 
     // 사용자의 권한을 콜렉션 형태로 반환
