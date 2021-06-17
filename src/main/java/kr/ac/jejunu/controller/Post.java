@@ -29,8 +29,8 @@ public class Post {
     @Column
     private String title;
 
-    @Column
-    private String author;
+    @OneToOne
+    private UserInfo userInfo;
 
     @Column
     private String content;
@@ -41,21 +41,46 @@ public class Post {
     @Column
     private LocalDateTime updatedDate;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Homework> homeworks;
 
     @OneToOne(cascade = CascadeType.ALL)
     private File file;
 
     @Builder
-    public Post(Long id, String title, String author, String content, File file, LocalDateTime createdDate,
+    public Post(Long id, String title, UserInfo userInfo, String content, File file, LocalDateTime createdDate,
                 LocalDateTime updatedDate) {
         this.id = id;
         this.title = title;
-        this.author = author;
+        this.userInfo = userInfo;
         this.content = content;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
         this.file = file;
     }
+
+    public Homework isDoHome(String email){
+        try {
+            for (Homework homework : homeworks) {
+                if (homework.getUserInfo().getEmail().equals(email) ) {
+                    return homework;
+                }
+            }
+        }
+        catch(NullPointerException e) {
+        }
+        return null;
+    }
+
+
+//    public Homework getUserHome(UserInfo userInfo) {
+//        Homework homework;
+//
+//       return  result;
+//    }
+
+
+
 }
+
+

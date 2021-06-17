@@ -18,14 +18,14 @@ import java.time.LocalDateTime;
 public class Homework {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String content;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("homeworks")
     private UserInfo userInfo;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("homeworks")
     private Post post;
 
@@ -36,7 +36,7 @@ public class Homework {
     private File file;
 
     @Builder
-    public Homework(Integer id, String content, UserInfo userInfo, Post post, LocalDateTime dateCreated, File file) {
+    public Homework(Long id, String content, UserInfo userInfo, Post post, LocalDateTime dateCreated, File file) {
         this.id = id;
         this.content = content;
         this.userInfo = userInfo;

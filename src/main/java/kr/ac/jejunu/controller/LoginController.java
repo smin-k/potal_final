@@ -18,18 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/login")
 public class LoginController {
 
-    private final UserService userService;
-
-    @PostMapping("/user")
-    public String signup(UserInfoDto infoDto) { // 회원 추가
-        userService.save(infoDto);
-        return "redirect:/login/login";
-    }
-
     @GetMapping(value = "/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:/login/login";
+        return "redirect:/login";
     }
 
 }

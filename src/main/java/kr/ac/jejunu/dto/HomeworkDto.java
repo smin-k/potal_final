@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor
 public class HomeworkDto {
-    private Integer id;
+    private Long id;
     private String content;
     private UserInfo userInfo;
     private LocalDateTime createdDate;
@@ -26,13 +26,14 @@ public class HomeworkDto {
                 .content(content)
                 .post(post)
                 .file(file)
+                .userInfo(userInfo)
                 .dateCreated(createdDate)
                 .build();
         return build;
     }
 
     @Builder
-    public HomeworkDto(Integer id, String content,UserInfo userInfo, File file, Post post, LocalDateTime dateCreated) {
+    public HomeworkDto(Long id, String content,UserInfo userInfo, File file, Post post, LocalDateTime dateCreated) {
         this.id = id;
         this.content = content;
         this.userInfo = userInfo;

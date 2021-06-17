@@ -1,5 +1,6 @@
 package kr.ac.jejunu.service;
 
+
 import kr.ac.jejunu.controller.UserInfo;
 import kr.ac.jejunu.dto.UserInfoDto;
 import kr.ac.jejunu.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+
     /**
      * Spring Security 필수 메소드 구현
      *

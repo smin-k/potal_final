@@ -24,10 +24,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 
@@ -66,8 +69,16 @@ public class PostController {
      * 게시글 상세 및 등록 폼 호출
      */
     @GetMapping("/form")
-    public String post(@RequestParam(value = "id", defaultValue = "0") Long id, Model model) {
-        model.addAttribute("post", postService.findPostById(id));
+    public String post(@RequestParam(value = "id", defaultValue = "0") Long id, Model model, Principal principal) {
+        Post post = postService.findPostById(id);
+        String userEmail = principal.getName();
+        UserInfo user = userService.loadUserByUsername(userEmail);
+        post.setUserInfo(user);
+
+        Homework home=post.isDoHome(userEmail);
+        model.addAttribute("post", post);
+        model.addAttribute("home", home);
+        model.addAttribute("userEmail",post);
         return "/form";
     }
 
@@ -75,10 +86,13 @@ public class PostController {
      * 게시글 생성
      */
     @PostMapping("/form")
-    public  String postPost(@RequestParam("file") MultipartFile file, @ModelAttribute PostDto postDto) throws IOException {
+    public  String postPost(@ModelAttribute PostDto postDto, Principal principal) throws IOException {
+        String userEmail = principal.getName();
+        UserInfo user = userService.loadUserByUsername(userEmail);
 
         postDto.setCreatedDate(LocalDateTime.now());
         postDto.setUpdatedDate(LocalDateTime.now());
+        postDto.setUserInfo(user);
         postRepository.save(postDto.toEntity());
         return "redirect:/post/list";
     }
@@ -104,45 +118,5 @@ public class PostController {
         postRepository.deleteById(id);
         return new ResponseEntity<>("{}", HttpStatus.OK);
     }
-
-
-    @GetMapping("/download/{fileId}")
-    public ResponseEntity<Resource> fileDownload(@PathVariable("fileId") Long fileId) throws IOException {
-        FileDto fileDto = fileService.getFile(fileId);
-        Path path = Paths.get(fileDto.getFilePath());
-        Resource resource = new InputStreamResource(Files.newInputStream(path));
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDto.getFilename()+ "\"")
-                .body(resource);
-    }
-    // 과제 제출 요청
-//    @RequestMapping("/homework/{id}")
-//    public String homework(@PathVariable("id") String id, Model model) {
-//        long l = Long.parseLong(id);
-//        model.addAttribute("post", postService.findPostById(l));
-//        return "/homework";
-//    }
-
-    @RequestMapping("/homework/{id}")
-    public String post(@RequestParam(value = "id", defaultValue = "0") Long hid,@PathVariable("id") String pid, Model model, @PathVariable String id) {
-        long l = Long.parseLong(pid);
-        Post post = postService.findPostById(l);
-        Homework homework = homeworkService.findHomeworkById(hid);
-        homework.setPost(post);
-
-        model.addAttribute("homework", homework );
-        return "/homework";
-    }
-
-    @PostMapping("/homework")
-    public String postHomework(@RequestParam("file") MultipartFile file, @ModelAttribute HomeworkDto homeworkDto) {
-        homeworkDto.setCreatedDate(LocalDateTime.now());
-
-        homeworkRepository.save(homeworkDto.toEntity());
-
-        return "redirect:/post/list";
-    }
-
 
 }

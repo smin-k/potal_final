@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorator="layout/default">
 
 <head>
@@ -10,7 +10,7 @@
     <!-- Page level plugin CSS-->
     <th:block layout:fragment="contentsCss">
     </th:block>
-</head>ㄷ
+</head>
 
 <body>
 <!-- header를 작성하지 않아도 header가 이 위치에 구성된다. -->
@@ -43,7 +43,7 @@ ID : <span sec:authentication="name"></span> <br>
                 <tr class="warning">
                     <th class="col-sm-1">No</th>
                     <th class="col-sm-5">제목</th>
-                    <th class="col-sm-3">작성 날짜</th>
+                    <th class="col-sm-3">작성자 </th>
                     <th class="col-sm-3">수정 날짜</th>
                 </tr>
                 </thead>
@@ -53,7 +53,7 @@ ID : <span sec:authentication="name"></span> <br>
                     <td>
                         <a th:href="'/post/form?id='+${post.id}" th:text="${post.title}"></a>
                     </td>
-                    <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:dd')}">
+                    <td th:text="${post.userInfo.getEmail()}">
                     </td>
                     <td th:text="${#temporals.format(post.updatedDate, 'yyyy-MM-dd HH:mm:dd')}">
                     </td>

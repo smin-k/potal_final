@@ -1,12 +1,17 @@
 package kr.ac.jejunu.service;
 
+import kr.ac.jejunu.controller.Homework;
 import kr.ac.jejunu.controller.Post;
+import kr.ac.jejunu.controller.UserInfo;
 import kr.ac.jejunu.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -25,4 +30,6 @@ public class PostServiceImpl implements PostService {
     public Post findPostById(Long id) {
         return postRepository.findById(id).orElse(new Post());
     }
+
+
 }

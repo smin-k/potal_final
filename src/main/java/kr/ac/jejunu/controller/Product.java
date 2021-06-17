@@ -15,7 +15,7 @@ public class Product {
     private Integer id;
     private String title;
     private Integer price;
-    @ManyToOne
-    @JsonIgnore
-    private Comment comment;
+//    @ManyToOne
+//    @JsonIgnore
+//    private Comment comment;
 }
