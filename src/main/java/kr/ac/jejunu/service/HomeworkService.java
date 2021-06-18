@@ -2,12 +2,12 @@ package kr.ac.jejunu.service;
 
 import kr.ac.jejunu.controller.Homework;
 import kr.ac.jejunu.controller.Post;
+import kr.ac.jejunu.controller.UserInfo;
 import kr.ac.jejunu.dto.HomeworkDto;
 import kr.ac.jejunu.repository.HomeworkRepository;
 import kr.ac.jejunu.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +21,16 @@ public class HomeworkService {
     @Autowired
     private PostRepository postRepository;
 
-    @Autowired
-    private PostService postService;
 
-    public Page<Homework> findHomeworkList(Pageable pageable, Long pid) {
-        Post post = postService.findPostById(pid);
-        pageable = PageRequest.of(pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber() - 1,
-                pageable.getPageSize());
-        return homeworkRepository.findByPost(post,pageable);
-    }
+//    public Page<Homework> findHomeworkList(Pageable pageable, Long pid) {
+//        Post post = postService.findPostById(pid);
+//        pageable = PageRequest.of(pageable.getPageNumber() <= 0 ? 0 : pageable.getPageNumber() - 1,
+//                pageable.getPageSize());
+//        return homeworkRepository.findByPost(post,pageable);
+//    }
 
-    public Homework findHomeworkById(Long id) {
-        return homeworkRepository.findById(id).orElse(new Homework());
+    public Page<Homework> findHomeworkByUserInfo(UserInfo userInfo, Pageable pageable) {
+        return homeworkRepository.findByUserInfo(userInfo,pageable);
     }
 
     public Homework save(HomeworkDto homeworkDto) {
@@ -45,6 +43,9 @@ public class HomeworkService {
         return homeworkRepository.save(homework);
     }
 
+    public Homework findHomeworkById(Long id) {
+        return homeworkRepository.findById(id).orElse(new Homework());
+    }
 }
 
 

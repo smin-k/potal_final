@@ -118,11 +118,6 @@ public class HomeworkController {
         return "/homework";
     }
 
-
-
-
-
-
     @RequestMapping("/homework/list/{pid}")
     public String list(@PageableDefault Pageable pageable, Model model, @PathVariable("pid") Long pid) {
 //      model.addAttribute("homeList", homeworkService.findHomeworkList(pageable,pid));

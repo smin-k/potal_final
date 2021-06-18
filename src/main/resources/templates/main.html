@@ -16,5 +16,69 @@ ID : <span sec:authentication="name"></span> <br>
     <input type="submit" value="로그아웃"/>
 </form>
 
+<div sec:authorize="hasRole('ROLE_STUDENT')" class="container" >
+    <div class="page-header">
+        <h1>제출 과제 목록</h1>
+    </div>
+    <br/>
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                <tr class="warning">
+                    <th class="col-sm-1">No</th>
+                    <th class="col-sm-1">점수</th>
+                    <th class="col-sm-3">과제명</th>
+                    <th class="col-sm-3">수정 날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="home : ${homeList}">
+                    <td th:text="${home.getId()}">
+                    </td>
+                    <td th:text="${home.getScore()}">
+                    </td>
+                    <td>
+                        <a th:href="@{'/post/homework/'+${home.post.getId()}+'/'+${home.getId()}}" th:text="${home.post.getTitle()}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(home.getDateCreated(), 'yyyy-MM-dd HH:mm:dd')}">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- pagination -->
+        <nav class="navbar" aria-label="Page navigation" style="text-align: center;">
+            <ul class="pagination"
+                th:with="startNumber=${T(Math).floor(homeList.number/10)} * 10 + 1,
+                            endNumber=(${homeList.totalPages} > ${startNumber} + 9) ?
+                                        ${startNumber} + 9 : ${homeList.totalPages}">
+
+                <li th:style="${homeList.first} ? 'display:none'">
+                    <a href="/homework/list?page=1">&laquo;</a>
+                </li>
+                <li th:style="${homeList.first} ? 'display:none'">
+                    <a th:href="@{/homework/list(page=${homeList.number})}">&lsaquo;</a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(startNumber, endNumber)}"
+                    th:class="(${page} == ${homeList.number} + 1) ? 'active'">
+                    <a th:href="@{/homework/list(page=${page})}" th:text="${page}">
+                        <span class="sr-only"></span>
+                    </a>
+                </li>
+                <li th:style="${homeList.last} ? 'display:none'">
+                    <a th:href="@{/home/list(page=${homeList.number} + 2)}">&rsaquo;</a>
+                </li>
+                <li th:style="${homeList.last} ? 'display:none'">
+                    <a th:href="@{/home/list(page=${homeList.totalPages})}">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<!--<div th:text="${home)}">-->
+<!--</div>-->
+
 </body>
 </html>

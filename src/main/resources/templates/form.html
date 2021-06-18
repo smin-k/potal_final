@@ -60,12 +60,12 @@
     </div>
 
     <div sec:authorize="hasRole('ROLE_TEACHER')" >
-      <a th:if="${post.getUserInfo().getEmail()} == ${name}" th:href="@{'/post/homework/list/'+${post.getId()}+'/'}"> 제출 과제 확인 </a>
+      <a th:if="${post?.id}" th:href="@{'/post/homework/list/'+${post.getId()}+'/'}"> 제출 과제 확인 </a>
     </div>
 
   <!-- 목록으로 -->
   <div class="pull-left">
-    <a href="/post/list" class="btn btn-success">목록으로</a>
+    <a href="/post/list"class="btn btn-success">목록으로</a>
 <!--  </div>-->
 <!--  <div th:text="${homeList.getSize()}">-->
 <!--  </div>-->

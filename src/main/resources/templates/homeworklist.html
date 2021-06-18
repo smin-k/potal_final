@@ -34,9 +34,9 @@
                                 th:text="${post?.content}"></textarea>
         <span class="help-block"></span>
         <div class="pull-left">
-            <a href="post/list" class="btn btn-success">목록으로</a>
+            <a href="/post/list" class="btn btn-success">목록으로</a>
         </div>
-<div class="container" layout:fragment="content">
+<div sec:authorize="hasRole('ROLE_TEACHER')" class="container" layout:fragment="content">
     <div class="page-header">
         <h1>제출 과제 목록</h1>
     </div>
