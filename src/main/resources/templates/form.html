@@ -35,16 +35,15 @@
       <button  th:if="!${post?.id}" type="submit" class="btn btn-primary" id="insert">
         저장
       </button>
-
       <form  th:action="@{'/post/update/'+${post.getId()}}" method="PUT" >
-      <button th:if="${post.getUserInfo().getEmail()} == ${name}" type="submit" class="btn btn-info" id="update">
+      <button th:if="${post?.id}" type="submit" class="btn btn-info" id="update">
         수정
       </button>
-      </form>>
-    </div>></form>
+      </form>
+    </div></form>
   <form action="#" th:action="@{'/post/delete/'+${post.getId()}}" th:method="delete" >
     <input type="hidden" name="_method" value="delete" />
-    <button th:if="${post.getUserInfo().getEmail()} == ${name}" type="submit" class="btn btn-danger" id="delete">
+    <button th:if="${post?.id}" type="submit" class="btn btn-danger" id="delete">
       삭제
     </button>
   </form>
@@ -67,7 +66,9 @@
   <!-- 목록으로 -->
   <div class="pull-left">
     <a href="/post/list" class="btn btn-success">목록으로</a>
-  </div>
+<!--  </div>-->
+<!--  <div th:text="${homeList.getSize()}">-->
+<!--  </div>-->
 
 </div>
 </body>

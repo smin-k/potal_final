@@ -35,8 +35,9 @@ public class HomeworkDto {
     }
 
     @Builder
-    public HomeworkDto(Long id, String content,UserInfo userInfo, File file, Post post, LocalDateTime dateCreated) {
+    public HomeworkDto(Long id, String content,UserInfo userInfo, File file, Post post,Long score ,LocalDateTime dateCreated) {
         this.id = id;
+        this.score=score;
         this.content = content;
         this.userInfo = userInfo;
         this.file = file;

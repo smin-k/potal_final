@@ -54,9 +54,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="home : ${homeList}">
-                    <td th:text="${home.getId()}"></td>
-                    <td>
-                        <a> 0 </a>
+                    <td th:text="${home.getId()}">
+                    </td>
+                    <td th:text="${home.getScore()}">
                     </td>
                     <td>
                         <a th:href="@{'/post/homework/'+${post.getId()}+'/'+${home.getId()}}" th:text="${home.userInfo.getEmail()}"></a>

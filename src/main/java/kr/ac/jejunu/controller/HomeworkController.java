@@ -78,7 +78,6 @@ public class HomeworkController {
     @PostMapping("/homework")
     public String postHomework(Principal principal, @RequestParam("post_id") Long postId , @RequestParam("upload_file") MultipartFile file, @ModelAttribute HomeworkDto homeworkDto) throws IOException {
         Post post = postService.findPostById(postId);
-
         String userEmail = principal.getName();
         UserInfo user = userService.loadUserByUsername(userEmail);
 
@@ -102,7 +101,7 @@ public class HomeworkController {
         homeworkDto.setUserInfo(user);
         homeworkService.save(homeworkDto);
 
-        return "redirect:/post/list";
+        return "redirect:/post/homework/list/"+postId.toString();
     }
 
     @RequestMapping("/homework/{pid}")
